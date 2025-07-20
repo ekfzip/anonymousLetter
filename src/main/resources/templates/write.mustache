@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="kr">
+<head>
+    <meta charset="UTF-8" name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1">
+
+    <title>메시지 작성</title>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/emoji-picker-element@^1/index.js"></script>
+    <link rel="stylesheet" href="/css/writemsg.css">
+</head>
+<body>
+<form method="post">
+    <h2>💌 쪽지 작성하기</h2>
+    <div style="margin-top: 20px;" class="top">
+        <label>대표 이모지 선택</label>
+        <button type="button" class="emoji-preview" id="emojiDisplay">😊</button>
+        <input type="hidden" name="emoji" id="emojiInput" value="😊">
+    </div>
+
+    <emoji-picker style="display: none; width: 100%; margin-bottom: 20px;"></emoji-picker>
+
+    <label for="content">메시지 내용</label>
+    <textarea name="content" required placeholder="메시지를 입력해 주세요"></textarea>
+
+    <br><br>
+    <button class="button" type="submit">보내기</button>
+</form>
+<script>
+    const picker = document.querySelector('emoji-picker');
+    const input = document.querySelector('#emojiInput');
+    const display = document.querySelector('#emojiDisplay');
+
+    display.addEventListener('click', () => {
+        picker.style.display = picker.style.display === 'none' ? 'block' : 'none';
+    });
+
+    picker.addEventListener('emoji-click', event => {
+        const emoji = event.detail.unicode;
+        input.value = emoji;
+        display.textContent = emoji;
+        picker.style.display = 'none'; // 선택 후 자동 접기
+    });
+</script>
+</body>
+</html>

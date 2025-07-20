@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="kr">
+<head>
+    <meta charset="UTF-8" name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1">
+    <link rel="stylesheet" href="/css/register_mobile.css">
+    <title>register</title>
+
+</head>
+<body>
+<form method="post">
+    <h2>✉️ 내 페이지 만들기</h2>
+
+    <div class="form-box">
+        <div class="form-control">
+            <label>이름</label>
+            <input type="text" id="name">
+        </div>
+        <div class="form-control">
+            <label>아이디</label>
+            <div class="input-with-btn">
+                <input type="text" id="id">
+                <button type="button" id="checkId">중복 확인</button>
+            </div>
+        </div>
+        <div class="form-control">
+            <label>비밀번호</label>
+            <input type="password" id="password">
+        </div>
+        <div class="form-control">
+            <label>비밀번호 확인</label>
+            <input type="password" id="passwordRetry">
+        </div>
+    </div>
+    <button type="submit" class="button" id="registerBtn">가입하기</button>
+</form
+>
+<script>
+    let isCheckedId = false;
+    // 아이디 중복
+    const checkIdBtn = document.querySelector("#checkId");
+    checkIdBtn.addEventListener("click", function() {
+        const userId = document.querySelector("#id").value;
+        const url = `/api/check-id?userId=${encodeURIComponent(userId)}`
+        fetch(url)
+        .then(res => res.json())
+        .then(isDuplicate => {
+            if(isDuplicate){
+                alert("이미 사용 중인 아이디입니다");
+                isCheckedId = false;
+            } else {
+                alert("사용 가능한 아이디입니다");
+                isCheckedId = true;
+            }
+        });
+    });
+
+    // 가입하기 버튼 누름
+    const form = document.querySelector("#form");
+    // 이벤트 감지
+    form.addEventListener("form", (e) => {
+        e.preventDefault(); // 기본 submit 막기
+
+        if(!isCheckedId){
+            alert("아이디 중복 확인해 주세요");
+            return;
+        }
+
+        const password = document.querySelector("#password").value;
+        const passwordRetry = document.querySelector("#passwordRetry").value;
+        if(password !== passwordRetry){
+            alert("비밀번호가 일치하지 않습니다");
+            return;
+        }
+
+        // 새 멤버 객체 생성
+        const member = {
+            userId: document.querySelector("#id").value,
+            name: document.querySelector("#name").value,
+            password: document.querySelector("#password").value
+        };
+        console.log(member);
+        const url = "/api/register"
+        fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(member)
+        }).then(res => {
+            if(res.ok) {
+                alert("회원 가입 성공");
+                window.location.href ="/main";
+            } else {
+                return res.text().then(msg=> { throw new Error(msg); });
+            }
+        }).catch(err => {
+            alert("회원 가입 실패: " + err.message);
+        })
+    });
+</script>
+</body>
+</html>

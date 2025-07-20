@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="kr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>두근두근 우체통</title>
+    <style>
+        * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+        }
+        body {
+          font-family: sans-serif;
+          background-color: white;
+          height: 100vh;
+          display: flex;
+          justify-content: center;
+          align-items: flex-start;
+          padding-top: 200px;
+        }
+
+        .container {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          width: 100%;
+          max-width: 375px;
+          padding: 0 1.5rem;
+        }
+
+        .title {
+          font-size: 24px;
+          font-weight: bold;
+          text-align: center;
+          margin-bottom: 40px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        }
+
+        .emoji {
+          font-size: 40px;
+          margin-bottom: 10px;
+        }
+
+        .button {
+          width: 100%;
+          padding: 16px;
+          font-size: 16px;
+          background-color: #cbe9f7;
+          color: black;
+          border: none;
+          border-radius: 14px;
+          cursor: pointer;
+          margin-bottom: 20px;
+        }
+
+        .button:active {
+          background-color: #94c8e3;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="title">
+        <div class="emoji">📬</div>
+        두근두근 우체통
+    </div>
+    <button class="button" id="registerBtn">내 페이지 만들기</button>
+    <button class="button" id="loginBtn">내 페이지 확인하기</button>
+</div>
+<script>
+    const reigsterBtn = document.querySelector("#registerBtn");
+    const loginBtn = document.querySelector("#loginBtn");
+    reigsterBtn.addEventListener("click", function() {
+        window.location.href = "/main/register";
+    });
+
+    // 로그인 버튼 클릭
+    loginBtn.addEventListener("click", function(){
+        window.location.href = "/main/login"
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,97 @@
+  
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'OFOSU', sans-serif;
+  }
+  
+  body {
+    background: #fff;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+  }
+  
+  form {
+    width: 100%;
+    max-width: 375px;
+    padding: 2rem;
+    text-align: center;
+    margin-top: 60px;
+  }
+  
+  h2 {
+    font-size: 24px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 30px;
+  }
+  
+  .top {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 25px;
+  }
+  
+  .top label {
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  .emoji-preview {
+    font-size: 40px;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+  
+  emoji-picker {
+    width: 100%;
+    margin-bottom: 20px;
+    display: none;
+  }
+  
+  label[for="content"] {
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 10px;
+    display: block;
+  }
+  
+  textarea {
+    width: 100%;
+    min-height: 140px;
+    border: none;
+    border-radius: 16px;
+    padding: 1rem;
+    font-size: 16px;
+    background-color: #f2f8fb;
+    resize: vertical;
+    margin-bottom: 40px;
+  }
+  
+  .button {
+    width: 100%;
+    padding: 16px;
+    font-size: 16px;
+    font-weight: bold;
+    background-color: #cbe9f7;
+    color: black;
+    border: none;
+    border-radius: 16px;
+    cursor: pointer;
+    margin-top: 80px;
+  }
+  
+  .button:active {
+    background-color: #94c8e3;
+  }
+  

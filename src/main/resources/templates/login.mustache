@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="kr">
+<head>
+    <meta charset="UTF-8" name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1">
+    <link rel="stylesheet" href="/css/login.css">
+    <title>로그인</title>
+</head>
+<body>
+<form method="post">
+    <p>메시지 확인을 위해 사용자 정보를 입력해 주세요</p>
+    <div class="form-control">
+        <input type="text" id="id" placeholder="아이디">
+        <input type="password" id="password" placeholder="비밀번호">
+    </div>
+    <button type="button" class="button" id="loginBtn">로그인</button>
+</form>
+<script>
+    // 로그인 버튼 클릭
+        const loginBtn = document.querySelector("#loginBtn");
+        loginBtn.addEventListener("click", function() {
+            const userId = document.querySelector("#id").value;
+            const password = document.querySelector("#password").value;
+
+            if (!userId || !password) {
+                alert("아이디와 비밀번호를 모두 입력해 주세요.");
+                return;
+            }
+
+
+            const loginData = {
+                userId: userId,
+                password: password
+            };
+
+            const url = "/api/login";
+            fetch(url, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(loginData)
+            }).then(res => {
+                if(res.ok) {
+                    alert("로그인 성공");
+                    window.location.href =`/${userId}`;
+                } else {
+                    return res.text().then(msg=> { throw new Error(msg); });
+                }
+            }).catch(err => {
+                alert("로그인 실패: " + err.message);
+            })
+        });
+</script>
+</body>
+</html>
