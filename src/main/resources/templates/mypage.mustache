@@ -1,0 +1,38 @@
+<html lang="kr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>두근두근 우체통</title>
+    <style>
+        * {
+            margin: 0; padding: 0;
+        }
+        body {
+            padding: 2rem;
+        }
+        .header {
+            padding: 16px 24px;              /* 여백 */
+            margin: 20px auto;               /* 위아래 여백 + 가운데 정렬 */
+            font-size: 17px;
+            font-weight: bold;
+            text-align: center;
+        }
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 16px;
+            padding: 20px;
+            max-width: 600px;
+            margin: 0 auto;
+  }
+    </style>
+</head>
+<body>
+<div class="header">
+    <label>📬 {{name}} 님께 익명 쪽지 {{totalMessage}} 개가 도착했습니다</label>
+</div>
+<div class="grid-container">
+
+</div>
+</body>
+</html>

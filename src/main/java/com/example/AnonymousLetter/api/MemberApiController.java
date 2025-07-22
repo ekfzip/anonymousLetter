@@ -3,6 +3,7 @@ package com.example.AnonymousLetter.api;
 import com.example.AnonymousLetter.Service.MemberService;
 import com.example.AnonymousLetter.dto.LoginDto;
 import com.example.AnonymousLetter.dto.MemberDto;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,12 +27,11 @@ public class MemberApiController {
         return ResponseEntity.status(HttpStatus.OK).body(dto);
     }
     @PostMapping("/api/login")
-    public ResponseEntity<?> login(@RequestBody LoginDto dto){
+    public ResponseEntity<?> login(HttpServletRequest request, @RequestBody LoginDto dto){
         log.info("userId = {}", dto.getUserId());
         log.info("password = {}", dto.getPassword());
-        boolean success = memberService.login(dto.getUserId(), dto.getPassword());
-        if (success) {
-            return ResponseEntity.ok("로그인 성공");
+        if(memberService.isValidUser(request, dto.getUserId(), dto.getPassword())){
+            return ResponseEntity.ok(("로그인 성공"));
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("아이디 또는 비밀번호가 틀렸습니다");
         }
