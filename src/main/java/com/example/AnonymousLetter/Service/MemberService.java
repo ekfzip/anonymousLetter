@@ -49,4 +49,8 @@ public class MemberService {
         }
         return false;
     }
+    public Member getMemberInfo(String userId){
+        Optional<Member> optionalMember = Optional.ofNullable(memberRepository.findByUserId(userId));
+        return optionalMember.get();
+    }
 }

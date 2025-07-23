@@ -1,0 +1,35 @@
+<html lang="kr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/goWriteMsg.css">
+    <title>두근두근 우체통</title>
+</head>
+<body>
+<div class="container">
+    <p class="title">{{name}} 님께 새로운 익명 쪽지를 보내 보세요!</p>
+
+    <div>
+        <button type="button" id="goWritePage">📩</button>
+        <p class="subtitle">아이콘 클릭해서 보내러 가기</p>
+    </div>
+
+    <button type="button" class="back-button" id="backToMain">메인으로 돌아가기</button>
+</div>
+<script>
+    // 아이콘 클릭
+    const urlParts = window.location.pathname.split('/');
+    const userId = urlParts[1];
+    const goWritePage = document.querySelector("#goWritePage");
+    goWritePage.addEventListener("click", function(){
+        window.location.href =`/${userId}/write`;
+    });
+
+    // 메인으로 돌아가기
+    const backToMain = document.querySelector("#backToMain");
+    backToMain.addEventListener("click", function() {
+        window.location.href = "/main";
+    });
+</script>
+</body>
+</html>

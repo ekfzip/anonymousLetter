@@ -3,7 +3,6 @@ package com.example.AnonymousLetter.dto;
 import com.example.AnonymousLetter.entity.Member;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @AllArgsConstructor

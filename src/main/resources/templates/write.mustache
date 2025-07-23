@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1">
 
-    <title>메시지 작성</title>
+    <title>속마음 리팩토링</title>
     <script type="module" src="https://cdn.jsdelivr.net/npm/emoji-picker-element@^1/index.js"></script>
     <link rel="stylesheet" href="/css/writemsg.css">
 </head>
@@ -19,19 +19,24 @@
     <emoji-picker style="display: none; width: 100%; margin-bottom: 20px;"></emoji-picker>
 
     <label for="content">메시지 내용</label>
-    <textarea name="content" required placeholder="메시지를 입력해 주세요"></textarea>
+    <textarea id="content" name="content" required placeholder="메시지를 입력해 주세요"></textarea>
 
     <br><br>
-    <button class="button" type="submit">보내기</button>
+    <button class="button" type="button" id="sendBtn">보내기</button>
 </form>
 <script>
     const picker = document.querySelector('emoji-picker');
     const input = document.querySelector('#emojiInput');
     const display = document.querySelector('#emojiDisplay');
 
+    // 접었다 열기
     display.addEventListener('click', () => {
         picker.style.display = picker.style.display === 'none' ? 'block' : 'none';
     });
+
+    const urlParts = window.location.pathname.split('/');
+    const userId = urlParts[1];
+    console.log(userId);
 
     picker.addEventListener('emoji-click', event => {
         const emoji = event.detail.unicode;
@@ -39,6 +44,54 @@
         display.textContent = emoji;
         picker.style.display = 'none'; // 선택 후 자동 접기
     });
+
+    function pad(n) {
+        return n < 10 ? '0' + n : n;
+    }
+
+    function getKSTDateTimeString() {
+        const now = new Date();
+
+        const year = now.getFullYear();
+        const month = pad(now.getMonth() + 1);
+        const day = pad(now.getDate());
+        const hour = pad(now.getHours());
+        const minute = pad(now.getMinutes());
+
+        return `${year}-${month}-${day} ${hour}:${minute}`;  // yyyy-mm-dd hh:mm
+    }
+
+
+    // 보내기
+    const sendBtn = document.querySelector("#sendBtn");
+    sendBtn.addEventListener("click", function (){
+        const msgData = {
+            content: document.querySelector("#content").value,
+            emoji: input.value,
+            userId: userId,
+            createdAt: getKSTDateTimeString()
+        };
+        console.log(msgData);
+
+        const url = "/api/send";
+        fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(msgData)
+        }).then(res => {
+            if(res.ok) {
+                alert("메시지를 성공적으로 전송했습니다");
+                window.location.href ="/main";
+            } else {
+                return res.text().then(msg=> { throw new Error(msg); });
+            }
+        }).catch(err => {
+            alert("메시지가 정상적으로 전송되지 않았습니다: " + err.message);
+        })
+    });
+
 </script>
 </body>
 </html>

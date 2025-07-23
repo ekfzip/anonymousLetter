@@ -23,4 +23,7 @@ public class Member {
     private String password;
     @Column
     private int totalMessage;
+    public void increaseTotalMessage() {
+        this.totalMessage += 1;
+    }
 }

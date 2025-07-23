@@ -31,7 +31,7 @@
             <input type="password" id="passwordRetry">
         </div>
     </div>
-    <button type="submit" class="button" id="registerBtn">가입하기</button>
+    <button type="button" class="button" id="registerBtn">가입하기</button>
 </form
 >
 <script>
@@ -55,10 +55,9 @@
     });
 
     // 가입하기 버튼 누름
-    const form = document.querySelector("#form");
+    const registerBtn = document.querySelector("#registerBtn");
     // 이벤트 감지
-    form.addEventListener("form", (e) => {
-        e.preventDefault(); // 기본 submit 막기
+    registerBtn.addEventListener("click", function() {
 
         if(!isCheckedId){
             alert("아이디 중복 확인해 주세요");

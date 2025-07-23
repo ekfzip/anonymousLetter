@@ -31,8 +31,29 @@
 <div class="header">
     <label>📬 {{name}} 님께 익명 쪽지 {{totalMessage}} 개가 도착했습니다</label>
 </div>
-<div class="grid-container">
-
+<div class="grid-container" id="grid-container">
+    <label id="notYetMsg" style="text-align: center;">아직 도착한 쪽지가 없어요 😭</label>
 </div>
+<script>
+    const msgCount = Number("{{totalMessage}}");
+    console.log("totalMessage:", {{ totalMessage }}); // 브라우저 콘솔에서 확인
+    const container = document.getElementById("grid-container");
+        if(msgCount > 0){
+
+            const notYetMsg = document.querySelector("#notYetMsg");
+            notYetMsg.style.display = 'none';
+
+            const img = document.createElement("img");
+
+            for (let i = 0; i < msgCount; i++) {
+                const img = document.createElement("img");
+                img.id = "message-img-" + i;
+                img.src = "/image/note_.png";
+                img.style.width = "100px";
+                img.style.margin = "5px";
+                container.appendChild(img);
+            }
+        }
+</script>
 </body>
 </html>
