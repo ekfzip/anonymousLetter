@@ -4,6 +4,7 @@ import com.example.AnonymousLetter.Service.MemberService;
 import com.example.AnonymousLetter.dto.LoginDto;
 import com.example.AnonymousLetter.dto.MemberDto;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -35,5 +36,10 @@ public class MemberApiController {
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("아이디 또는 비밀번호가 틀렸습니다");
         }
+    }
+    @PostMapping("/api/logout")
+    public ResponseEntity<?> logout(HttpSession session){
+        session.invalidate();
+        return ResponseEntity.ok("로그아웃 성공");
     }
 }

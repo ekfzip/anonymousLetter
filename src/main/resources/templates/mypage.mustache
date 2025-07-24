@@ -3,29 +3,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>두근두근 우체통</title>
-    <style>
-        * {
-            margin: 0; padding: 0;
-        }
-        body {
-            padding: 2rem;
-        }
-        .header {
-            padding: 16px 24px;              /* 여백 */
-            margin: 20px auto;               /* 위아래 여백 + 가운데 정렬 */
-            font-size: 17px;
-            font-weight: bold;
-            text-align: center;
-        }
-        .grid-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-            gap: 16px;
-            padding: 20px;
-            max-width: 600px;
-            margin: 0 auto;
-  }
-    </style>
+<link rel="stylesheet" href="/css/mypage.css">
 </head>
 <body>
 <div class="header">
@@ -34,26 +12,78 @@
 <div class="grid-container" id="grid-container">
     <label id="notYetMsg" style="text-align: center;">아직 도착한 쪽지가 없어요 😭</label>
 </div>
-<script>
-    const msgCount = Number("{{totalMessage}}");
-    console.log("totalMessage:", {{ totalMessage }}); // 브라우저 콘솔에서 확인
-    const container = document.getElementById("grid-container");
-        if(msgCount > 0){
+<div class="logoutZone"><button id="logoutBtn">로그아웃</button></div>
 
-            const notYetMsg = document.querySelector("#notYetMsg");
+<!-- 모달 구조 -->
+<div id="messageModal" class="modal">
+    <div class="modal-content">
+        <p id="messageDate" style="margin-top: 30px"></p>
+        <p id="messageEmoji" style="font-size: 30px"></p>
+        <p id="messageText"></p>
+        <button class="closeButton" onclick="closeModal()">닫기</button>
+    </div>
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+    const container = document.getElementById("grid-container");
+    const notYetMsg = document.getElementById("notYetMsg");
+
+    const urlParts = window.location.pathname.split('/');
+    const userId = urlParts[1];
+
+    // 메시지 불러오기
+    fetch(`/api/messages/${userId}`)
+        .then(response => response.json())
+        .then(messages => {
+            if (messages.length === 0) return;
+
             notYetMsg.style.display = 'none';
 
-            const img = document.createElement("img");
-
-            for (let i = 0; i < msgCount; i++) {
+            messages.forEach((msg, i) => {
                 const img = document.createElement("img");
-                img.id = "message-img-" + i;
                 img.src = "/image/note_.png";
                 img.style.width = "100px";
                 img.style.margin = "5px";
+                img.style.cursor = "pointer";
+                img.addEventListener("click", () => {
+                    openModal(msg); // 클릭하면 쪽지 내용 표시
+                });
                 container.appendChild(img);
+            });
+        });
+    });
+    // 모달 열기
+    function openModal(msg) {
+        const modal = document.getElementById("messageModal");
+        const text = document.getElementById("messageText");
+        const date = document.getElementById("messageDate");
+        const emoji = document.getElementById("messageEmoji");
+
+        date.innerText = msg.createdAt;
+        text.innerText = msg.content;
+        emoji.innerText= msg.emoji;
+
+        modal.style.display = "block";
+    }
+
+    // 모달 닫기
+    function closeModal() {
+        document.getElementById("messageModal").style.display = "none";
+    }
+
+    const logoutBtn = document.querySelector("#logoutBtn");
+    logoutBtn.addEventListener("click", function(){
+        fetch('/api/logout', {
+            method: 'POST'
+        })
+        .then(res => {
+            if (res.ok) {
+                window.location.href = '/main'; // 로그아웃 후 메인 페이지로
+            } else {
+                alert("로그아웃 실패");
             }
-        }
+        });
+    });
 </script>
 </body>
 </html>

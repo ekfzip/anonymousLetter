@@ -5,12 +5,12 @@ import com.example.AnonymousLetter.entity.Message;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.ToString;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
 @AllArgsConstructor
-@ToString
+@Setter
 @Data
 public class MessageDto {
     private Long id;
@@ -19,7 +19,6 @@ public class MessageDto {
     private LocalDateTime createdAt;
     private String userId;
     private String emoji;
-
     public Message sendMessage(Member member){
         return new Message(null, content, createdAt, member, emoji);
     }

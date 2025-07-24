@@ -6,9 +6,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -22,5 +22,9 @@ public class MessageApiController {
         System.out.println(dto.toString());
         messageService.send(dto);
         return ResponseEntity.status(HttpStatus.OK).body(dto);
+    }
+    @GetMapping("/api/messages/{userId}")
+    public List<MessageDto> getMessages(@PathVariable String userId) {
+        return messageService.getMessages(userId);
     }
 }

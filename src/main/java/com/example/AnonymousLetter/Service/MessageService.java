@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @Slf4j
 public class MessageService {
@@ -25,5 +27,18 @@ public class MessageService {
         Message message = dto.sendMessage(member);
         member.increaseTotalMessage();
         messageRepository.save(message);
+    }
+
+    public List<MessageDto> getMessages(String userId) {
+        Member member = memberRepository.findByUserId(userId);
+        List<MessageDto> messages = messageRepository.findByUserId(member);
+        return messages.stream()
+                .map(message -> new MessageDto(
+                         message.getId(),
+                        message.getContent(),
+                        message.getCreatedAt(),
+                        message.getUserId(),
+                        message.getEmoji()
+                )).toList();
     }
 }
