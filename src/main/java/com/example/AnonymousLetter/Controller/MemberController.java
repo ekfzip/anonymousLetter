@@ -15,10 +15,6 @@ public class MemberController {
     public String register(){
         return "register";
     }
-    @GetMapping("/write")
-    public String write(){
-        return "write";
-    }
     @GetMapping("/main/login")
     public String login(){
         return "login";
