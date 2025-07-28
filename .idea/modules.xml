@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/AnonymousLetter.main.iml" filepath="$PROJECT_DIR$/.idea/modules/AnonymousLetter.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/AnonymousLetter.test.iml" filepath="$PROJECT_DIR$/.idea/modules/AnonymousLetter.test.iml" />
     </modules>
   </component>
