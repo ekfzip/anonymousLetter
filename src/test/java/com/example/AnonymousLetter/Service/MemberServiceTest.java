@@ -3,68 +3,73 @@ package com.example.AnonymousLetter.Service;
 import com.example.AnonymousLetter.Repository.MemberRepository;
 import com.example.AnonymousLetter.dto.MemberDto;
 import com.example.AnonymousLetter.entity.Member;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.*;
-import static org.mockito.internal.verification.VerificationModeFactory.times;
+import static org.junit.jupiter.api.Assertions.*;
 
-
-@ExtendWith(MockitoExtension.class)
+@SpringBootTest
+@ActiveProfiles("test")
 class MemberServiceTest {
 
-    @Mock
+    private static final Logger log = LoggerFactory.getLogger(MemberServiceTest.class);
+    @Autowired
     private MemberRepository memberRepository;
-
-    @InjectMocks
+    @Autowired
     private MemberService memberService;
 
     @Test
-    @DisplayName("아이디 중복 확인")
-    void isUseableId_exists() {
-        String userId = "testUser";
-        when(memberRepository.existsByUserId(userId)).thenReturn(true);
+    @DisplayName("사용 가능한 아이디인 경우")
+    void isUsableId_success() {
+        String id = "test";
+        boolean result = memberService.isUsableId(id);
 
-        boolean result = memberService.isUseableId(userId);
-
-        assertThat(result).isTrue();
-        verify(memberRepository, times(1)).existsByUserId(userId);
+        assertFalse(result, "사용 가능한 아이디");
     }
-
     @Test
-    @DisplayName("회원가입 성공 테스트")
-    void register_success() {
-
-        MemberDto memberDto = new MemberDto(null, "test", "테스터", "1234", 0);
-
-        memberService.register(memberDto);
-
-        verify(memberRepository, times(1)).save(any(Member.class));
-    }
-
-    @Test
-    void login() {
+    @DisplayName("이미 다른 유저가 사용 중인 아이디인 경우")
+    void isUsableId_fail() {
         MemberDto memberDto = new MemberDto(null, "test", "테스터", "1234", 0);
         Member member = memberDto.toEntity();
+        memberRepository.save(member);
 
-        when(memberRepository.findByUserId(member.getUserId())).thenReturn(member);
+        String testId = "test";
+        boolean result = memberService.isUsableId(testId);
+        assertTrue(result, "이미 존재하는 아이디");
 
-        boolean isLogin = memberService.login(member.getUserId(), member.getPassword());
+    }
+    @Test
+    void register() {
+        MemberDto memberDto = new MemberDto(null, "test", "테스터", "1234", 0);
+        memberService.register(memberDto);
 
-        Assertions.assertTrue(isLogin, "유저 정보 존재");
+        Member test = memberRepository.findByUserId("test");
+        log.info(test.toString());
     }
 
     @Test
-    void isValidUser() {
-    }
+    @DisplayName("로그인 성공")
+    void login_success() {
+        MemberDto memberDto = new MemberDto(null, "test", "테스터", "1234", 0);
+        Member member = memberDto.toEntity();
+        memberRepository.save(member);
 
+        boolean result = memberService.login("test", "1234");
+        assertTrue(result, "로그인 성공");
+    }
     @Test
-    void getMemberInfo() {
+    @DisplayName("로그인 실패")
+    void login_fail() {
+        MemberDto memberDto = new MemberDto(null, "test", "테스터", "1234", 0);
+        Member member = memberDto.toEntity();
+        memberRepository.save(member);
+
+        boolean result = memberService.login("test1", "1234");
+        assertFalse(result, "로그인 실패");
     }
 }

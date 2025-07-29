@@ -19,7 +19,7 @@ public class MemberApiController {
     @GetMapping("/api/check-id")
     public ResponseEntity<Boolean> checkId(@RequestParam String userId){
         log.info(userId);
-        boolean isDuplicate = memberService.isUseableId(userId);
+        boolean isDuplicate = memberService.isUsableId(userId);
         return ResponseEntity.ok(isDuplicate);
     }
     @PostMapping("/api/register")
