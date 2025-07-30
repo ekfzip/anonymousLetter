@@ -1,14 +1,11 @@
 package com.example.AnonymousLetter.dto;
 
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 @Data
 @Getter
 @ToString
-@NoArgsConstructor
+@AllArgsConstructor
 public class LoginDto {
     private String userId;
     private String password;
