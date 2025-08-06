@@ -4,7 +4,7 @@
 
 ```
 Spring Boot 중심으로 백엔드 개발 역량을 키우기 위해 개인적으로 진행한 '익명 롤링 페이퍼' 프로젝트 '두근두근 우체통'입니다.
-유저에게 익명으로 편지를 전송할 수 있으며, 익명 편지를 받은 유저는 편지를 확인할 수 있지만 누가 전송했는지는 절대 알 수 없습니다.
+유저에게 익명 편지를 전송할 수 있으며, 익명 편지를 받은 유저는 편지를 확인할 수 있지만 누가 전송했는지는 절대 알 수 없습니다.
 
 REST API, DB 연동을 모두 설계하고 구현할 수 있으려면 어떤 주제가 좋을까 생각하다가 평소 주변인들에게 편지 쓰는 것을 좋아하며
 친구들끼리 소소한 재미를 추구하고 싶을 때 이용해 보면 좋을 것 같다는 생각에 이 주제를 고르게 되었습니다. 😉
@@ -12,10 +12,42 @@ REST API, DB 연동을 모두 설계하고 구현할 수 있으려면 어떤 주
 
 #### ✔️ 사용 기술
 ```
-HTML, CSS, JavaScript, Java, Spring Boot, PostgreSQL, Figma
+HTML, CSS, JavaScript, Java, Spring Boot, PostgreSQL, H2 Database, Figma
 ```
 
-#### ✔️ 설명
+#### ✔️ 설치 방법
+```
+1. 프로젝트 클론
+- git clone https://github.com/ekfzip/anonymousLetter.git
+- cd anonymousLetter
+
+2. 의존성 설치
+- ./gradlew build
+
+3. application-properties 파일 생성
+- DB 연동 정보 때문에 해당 파일은 깃허브에 업로드하지 않은 상태입니다.
+- 아래 칸에 기재된 내용을 복사해 사용해 주시되 DB 연동에 대한 정보를 채워 주십시오.
+
+4. 애플리케이션 실행
+- ./gradlew bootRun
+```
+
+```
+# application-properties
+
+spring.application.name=AnonymousLetter
+
+# postgresql 연동
+spring.datasource.url=
+spring.datasource.username=
+spring.datasource.password=
+
+spring.datasource.data=
+spring.datasource.initialization-mode=never
+spring.jpa.hibernate.ddl-auto=update
+```
+
+#### ✔️ 프로젝트 사용 방법
 
 **0. 메인**
 ```
