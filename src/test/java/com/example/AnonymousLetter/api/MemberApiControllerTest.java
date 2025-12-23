@@ -34,10 +34,6 @@ class MemberApiControllerTest {
     private ObjectMapper objectMapper;
 
     @Test
-    void checkId() {
-    }
-
-    @Test
     void register() throws Exception{
         MemberDto dto = new MemberDto(null, "test", "테스터", "1234", 0);
 

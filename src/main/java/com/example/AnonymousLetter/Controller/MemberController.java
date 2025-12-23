@@ -9,8 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Slf4j
 @Controller
 public class MemberController {
-    @Autowired
-    private MemberRepository memberRepository;
+
     @GetMapping("/main/register")
     public String register(){
         return "register";
