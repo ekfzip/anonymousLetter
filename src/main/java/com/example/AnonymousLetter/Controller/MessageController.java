@@ -29,13 +29,11 @@ public class MessageController {
             // 남의 페이지 들어갔을 때
             else {
                 model.addAttribute("name", memberService.getMemberInfo(userId).getName().substring(1));
-                model.addAttribute("totalMessage", memberService.getMemberInfo(userId).getTotalMessage());
                 return "goWriteMsg";
             }
         }catch (NullPointerException e){
             // 로그인 안 됐을 때
             model.addAttribute("name", memberService.getMemberInfo(userId).getName().substring(1));
-            model.addAttribute("totalMessage", memberService.getMemberInfo(userId).getTotalMessage());
             return "goWriteMsg";
         }
     }

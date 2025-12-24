@@ -19,7 +19,6 @@ public class MemberService {
     private MemberRepository memberRepository;
 
     public boolean isUsableId(String userId) {
-        System.out.println(userId);
         return memberRepository.existsByUserId(userId);
     }
     @Transactional
