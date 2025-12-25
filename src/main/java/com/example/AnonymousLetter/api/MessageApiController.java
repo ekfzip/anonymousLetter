@@ -19,7 +19,7 @@ public class MessageApiController {
 
     @PostMapping("/api/send")
     public ResponseEntity<?> send(@RequestBody MessageDto dto){
-        System.out.println(dto.toString());
+       log.info(dto.toString());
         messageService.send(dto);
         return ResponseEntity.status(HttpStatus.OK).body(dto);
     }

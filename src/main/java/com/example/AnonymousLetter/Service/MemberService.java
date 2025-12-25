@@ -7,8 +7,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Optional;
 
@@ -42,14 +44,20 @@ public class MemberService {
                 // 로그인 성공: 세션에 userId 저장
                 HttpSession session = request.getSession(true);
                 session.setAttribute("userId", userId);
-                System.out.println(session.getAttribute("userId"));
+                log.info(session.getAttribute("userId").toString());
                 return true;
             }
         }
         return false;
     }
-    public Member getMemberInfo(String userId){
-        Optional<Member> optionalMember = Optional.ofNullable(memberRepository.findByUserId(userId));
-        return optionalMember.get();
+    public Member getMemberInfo(String userId) {
+        Member member = memberRepository.findByUserId(userId);
+
+        if (member == null) {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "해당 userId를 가진 회원이 없습니다: " + userId);
+        }
+
+        return member;
     }
 }
